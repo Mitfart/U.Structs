@@ -1,54 +1,46 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Structs.Ranged {
-  [Serializable]
-  public struct Ranged {
-    [SerializeField] private float min;
-    [SerializeField] private float max;
-    [SerializeField] private bool  rounded;
-    [SerializeField] private float minEdge;
-    [SerializeField] private float maxEdge;
+   [Serializable]
+   public struct Ranged {
+      [SerializeField] private float min;
+      [SerializeField] private float max;
+      [SerializeField] private float minEdge;
+      [SerializeField] private float maxEdge;
 
-    public float Min     => min;
-    public float Max     => max;
-    public bool  Rounded => rounded;
-    public float MinEdge => minEdge;
-    public float MaxEdge => maxEdge;
+      public bool rounded;
 
+      public float Min {
+         get => min;
+         set => min = Mathf.Min(value, max);
+      }
 
-    public Ranged(float minV, float maxV, bool rounded = false) {
-      min          = minV < maxV ? minV : maxV;
-      max          = maxV > minV ? maxV : minV;
-      this.rounded = rounded;
-      minEdge      = Mathf.Min(0f, min);
-      maxEdge      = Mathf.Max(1f, max);
-    }
+      public float Max {
+         get => max;
+         set => max = Mathf.Max(value, min);
+      }
 
-    public Ranged(
-      float minV,
-      float maxV,
-      float maxMinV,
-      float maxMaxV,
-      bool  rounded = false
-    ) : this(
-      minV,
-      maxV,
-      rounded
-    ) {
-      minEdge = Mathf.Min(maxMinV, min);
-      maxEdge = Mathf.Max(maxMaxV, max);
-    }
+      public float MinEdge {
+         get => minEdge;
+         set => minEdge = Mathf.Min(value, min);
+      }
+
+      public float MaxEdge {
+         get => maxEdge;
+         set => maxEdge = Mathf.Max(value, max);
+      }
 
 
-    public float Clamp(float value) => Mathf.Clamp(value, Min, Max);
-    public int   Clamp(int   value) => Mathf.RoundToInt(Clamp((float) value));
 
-    public float GetRandom()    => Random.Range(Min, Max);
-    public int   GetRandomInt() => Mathf.RoundToInt(GetRandom());
+      public float Clamp(float value) => Mathf.Clamp(value, Min, Max);
+      public int   Clamp(int   value) => Mathf.RoundToInt(Clamp((float)value));
+
+      public float Random()    => UnityEngine.Random.Range(Min, Max);
+      public int   RandomInt() => Mathf.RoundToInt(Random());
 
 
-    public override string ToString() => $"Value: ({Min}, {Max}),  Edges: ({MinEdge}, {MaxEdge})";
-  }
+
+      public override string ToString() => $"Value: ({Min}, {Max}),  Edges: ({MinEdge}, {MaxEdge})";
+   }
 }

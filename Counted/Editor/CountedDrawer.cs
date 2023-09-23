@@ -2,25 +2,25 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Structs.Counted.Editor {
-  [CustomPropertyDrawer(typeof(Counted<>), true)]
-  public class CountedDrawer : PropertyDrawer {
-    private const string VALUE = "value";
-    private const string COUNT = "count";
-    private const int    WIDTH = 24 * 2;
+   [CustomPropertyDrawer(typeof(Counted<>), useForChildren: true)]
+   public class CountedDrawer : PropertyDrawer {
+      private const string _VALUE = "value";
+      private const string _COUNT = "count";
+      private const int    _WIDTH = 24 * 2;
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-      SerializedProperty lootProp  = property.FindPropertyRelative(VALUE);
-      SerializedProperty countProp = property.FindPropertyRelative(COUNT);
+      public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+         SerializedProperty lootProp  = property.FindPropertyRelative(_VALUE);
+         SerializedProperty countProp = property.FindPropertyRelative(_COUNT);
 
 
-      position.width -= WIDTH;
-      EditorGUI.PropertyField(position, lootProp, label, true);
+         position.width -= _WIDTH;
+         EditorGUI.PropertyField(position, lootProp, label, includeChildren: true);
 
-      position.x      += position.width + WIDTH;
-      position.width  =  WIDTH;
-      position.height =  EditorGUI.GetPropertyHeight(lootProp);
-      position.x      -= position.width;
-      EditorGUI.PropertyField(position, countProp, GUIContent.none);
-    }
-  }
+         position.x      += position.width + _WIDTH;
+         position.width  =  _WIDTH;
+         position.height =  EditorGUI.GetPropertyHeight(lootProp);
+         position.x      -= position.width;
+         EditorGUI.PropertyField(position, countProp, GUIContent.none);
+      }
+   }
 }
