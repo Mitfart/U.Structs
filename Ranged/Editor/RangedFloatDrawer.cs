@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Structs.Ranged.Editor {
@@ -72,14 +71,14 @@ namespace Structs.Ranged.Editor {
          max   = EditorGUI.FloatField(maxRect, max);
          round = EditorGUI.Toggle(roundRect, round);
 
-         if (round && Math.Abs(maxEdge - minEdge) > 1f) {
+         if (round && Mathf.Abs(maxEdge - minEdge) > 1f) {
             min     = Mathf.Round(min);
             max     = Mathf.Round(max);
             minEdge = Mathf.Round(minEdge);
             maxEdge = Mathf.Round(maxEdge);
          }
 
-         if (Math.Abs(maxEdge - minEdge) < .00001f) {
+         if (Mathf.Abs(maxEdge - minEdge) < .00001f) {
             maxEdge++;
             Debug.LogWarning(message: "Ranged MAX can't be equal to MIN!");
          }
